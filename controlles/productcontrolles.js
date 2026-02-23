@@ -1,5 +1,5 @@
 const Product=require("../models/product")
-const cloudinary=require("../config/cloudinary")
+
 
 exports.AddProduct=async(req,res)=>{
     try {
