@@ -4,14 +4,10 @@ const cloudinary=require("../config/cloudinary")
 exports.AddProduct=async(req,res)=>{
     try {
 
-        const result = await cloudinary.uploader.upload(req.file.path, {
-            upload_preset: "wmw1fun5",
-            allowed_formats: ["png", "jpg", "jpeg", "svg", "ico", "jfif", "webp"],
-          });
       // dev =>  const url = `${req.protocol}://${req.get("host")}/${req.file.path}`
              // dev => product.img=url
           const product= new Product(req.body)
-           product.img=result.secure_url;
+           product.img=req.file.path;
             await product.save()
            return res.status(201).send({msg:"product added"})
     } catch (error) {
@@ -41,15 +37,11 @@ exports.UpdateProduct=async(req,res)=>{
     try {
         
         if (req.file)
-        { const result = await cloudinary.uploader.upload(req.file.path, {
-            upload_preset: "wmw1fun5",
-            allowed_formats: ["png", "jpg", "jpeg", "svg", "ico", "jfif", "webp"],
-          });
+        { 
             // dev=>const url = `${req.protocol}://${req.get("host")}/${req.file.path}`
        const   product=await Product.findById(req.parms.id)
-
            //  dev=> product.img=url
-           product.img=result.secure_url;
+           product.img=req.file.path;
          await product.save()
     }
     const {body}=req
