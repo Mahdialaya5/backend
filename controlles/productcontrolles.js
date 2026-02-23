@@ -1,11 +1,18 @@
 const Product=require("../models/product")
+const cloudinary=require("../config/cloudinary")
 
 exports.AddProduct=async(req,res)=>{
     try {
-        const url = `${req.protocol}://${req.get("host")}/${req.file.path}`
+
+        const result = await cloudinary.uploader.upload(req.file.path, {
+            upload_preset: "wmw1fun5",
+            allowed_formats: ["png", "jpg", "jpeg", "svg", "ico", "jfif", "webp"],
+          });
+      // dev =>  const url = `${req.protocol}://${req.get("host")}/${req.file.path}`
+             // dev => product.img=url
           const product= new Product(req.body)
-            product.img=url
-           await product.save()
+           product.img=result.secure_url;
+            await product.save()
            return res.status(201).send({msg:"product added"})
     } catch (error) {
         return res.status(503).send({msg:error.message})
@@ -34,9 +41,15 @@ exports.UpdateProduct=async(req,res)=>{
     try {
         
         if (req.file)
-        {const url = `${req.protocol}://${req.get("host")}/${req.file.path}`
+        { const result = await cloudinary.uploader.upload(req.file.path, {
+            upload_preset: "wmw1fun5",
+            allowed_formats: ["png", "jpg", "jpeg", "svg", "ico", "jfif", "webp"],
+          });
+            // dev=>const url = `${req.protocol}://${req.get("host")}/${req.file.path}`
        const   product=await Product.findById(req.parms.id)
-            product.img=url
+
+           //  dev=> product.img=url
+           product.img=result.secure_url;
          await product.save()
     }
     const {body}=req
