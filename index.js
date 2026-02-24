@@ -5,6 +5,7 @@ const PORT=process.env.PORT
 const connectdb=require("./config/connectdb")
 const productRoutes=require("./routes/productRoutes")
 const userRoutes=require("./routes/userRoutes")
+const cors = require("cors");
 connectdb()
 
 
