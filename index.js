@@ -7,6 +7,13 @@ const productRoutes=require("./routes/productRoutes")
 const userRoutes=require("./routes/userRoutes")
 connectdb()
 
+
+const corsOptions = {
+    origin: '*', 
+    credentials: true, 
+  };
+app.use(cors(corsOptions));
+
 const path = require('path');
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); 
 app.use(express.json())
